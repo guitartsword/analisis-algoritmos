@@ -93,7 +93,32 @@ class knapsack extends Component{
       return
     }else{
       this.productList.push({name: this.state.name, value: this.state.value, amount: this.state.amount});
-      alert("productList------------>"+this.productList[0].value);
+
+      var backpack = new Image();
+      var box = new Image();
+      function init() {
+        backpack.src = 'http://maxpixel.freegreatpicture.com/static/photo/1x/Trip-Bag-Hiking-Backpack-Travel-Luggage-Outdoors-145841.png';
+        box.src = 'https://cdn0.iconfinder.com/data/icons/ie_Bright/512/box_wooden.png';
+        window.requestAnimationFrame(draw);
+      }
+
+      function draw() {
+        var ctx = document.getElementById('canvas').getContext('2d');
+
+        ctx.clearRect(0, 0, 1400, 300); // clear canvas
+        ctx.drawImage(backpack, 40, 50, 200, 200);
+        var x = 300;
+        var y = 100;
+        for(var i = 0; i < this.productList.lenght; i++){
+          alert(this.productList[i].name);
+          x+=200;
+          ctx.drawImage(box,x,y,100,100);
+        }
+
+
+        window.requestAnimationFrame(draw);
+      }
+      init();
 
     }
   }
