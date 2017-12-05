@@ -1,6 +1,13 @@
 import React, {Component} from 'react';
 import {FormGroup, ControlLabel, FormControl, Button} from 'react-bootstrap';
 
+let x = 300;
+const y = 100;
+let ctx = "";
+const backpack = new Image();
+const box = new Image();
+let x1 = 310;
+
 class knapsack extends Component{
   constructor(){
     super();
@@ -15,22 +22,13 @@ class knapsack extends Component{
     this.handleClick = this.handleClick.bind(this);
   }
 
-  componentWillMount() {
-    var backpack = new Image();
-    function init() {
+  componentDidMount() {
+    ctx = document.getElementById('canvas').getContext('2d');
       backpack.src = 'http://maxpixel.freegreatpicture.com/static/photo/1x/Trip-Bag-Hiking-Backpack-Travel-Luggage-Outdoors-145841.png';
-      window.requestAnimationFrame(draw);
-    }
-
-    function draw() {
-      var ctx = document.getElementById('canvas').getContext('2d');
-
-      ctx.clearRect(0, 0, 1400, 300); // clear canvas
-      ctx.drawImage(backpack, 40, 50, 200, 200);
-
-      window.requestAnimationFrame(draw);
-    }
-    init();
+      backpack.onload = () =>{
+        ctx.clearRect(0, 0, 1400, 300); // clear canvas
+        ctx.drawImage(backpack, 40, 50, 200, 200);
+      }
   }
 
   render(){
@@ -40,7 +38,7 @@ class knapsack extends Component{
           <h1 className="App-title">Knapsack</h1>
         </header>
 
-        <canvas id="canvas" width="1400" height="300"></canvas>
+        <canvas id="canvas" width="1300" height="300"></canvas>
 
         <FormGroup>
 
@@ -75,7 +73,7 @@ class knapsack extends Component{
 					bsStyle="primary"
 					name="addProduct"
 					onClick={this.handleClick}>
-					AgregarCiudad
+					Agregar Ciudad
 				</Button>
 
       </div>
@@ -94,34 +92,22 @@ class knapsack extends Component{
     }else{
       this.productList.push({name: this.state.name, value: this.state.value, amount: this.state.amount});
 
-      var backpack = new Image();
-      var box = new Image();
-      function init() {
-        backpack.src = 'http://maxpixel.freegreatpicture.com/static/photo/1x/Trip-Bag-Hiking-Backpack-Travel-Luggage-Outdoors-145841.png';
-        box.src = 'https://cdn0.iconfinder.com/data/icons/ie_Bright/512/box_wooden.png';
-        window.requestAnimationFrame(draw);
+      ctx = document.getElementById('canvas').getContext('2d');
+      box.src = 'https://cdn0.iconfinder.com/data/icons/ie_Bright/512/box_wooden.png';
+      box.onload = () => {
+        ctx.font = "15px Courier"
+        ctx.fillText(this.state.name, x1, y);
+        ctx.fillText("Valor:"+this.state.value, x1, 210);
+        ctx.fillText("Cantidad:"+this.state.amount, x1, 250);
+        ctx.drawImage(box,x,y,90,90);
+        x+= 120;
+        x1+=120;
       }
-
-      function draw() {
-        var ctx = document.getElementById('canvas').getContext('2d');
-
-        ctx.clearRect(0, 0, 1400, 300); // clear canvas
-        ctx.drawImage(backpack, 40, 50, 200, 200);
-        var x = 300;
-        var y = 100;
-        for(var i = 0; i < this.productList.lenght; i++){
-          alert(this.productList[i].name);
-          x+=200;
-          ctx.drawImage(box,x,y,100,100);
-        }
-
-
-        window.requestAnimationFrame(draw);
-      }
-      init();
 
     }
+
   }
+
 }
 
 export default knapsack;

@@ -20,11 +20,13 @@ class App extends Component {
 		};
 		this.options = {};
 		this.cityList = [];
+
+		this.productList = [];
 	}
 	render() {
 		return (
 			<div className="App">
-				<Knapsack/>
+				<Knapsack data={this.productList}/>
 				<TravelSalesPerson data={this.data}/>
 				<div id="network"></div>
 			</div>
