@@ -17,6 +17,7 @@ class knapsack extends Component{
       amount:''
     });
 
+    this.weight = 50;
     this.productList = [];
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -76,6 +77,13 @@ class knapsack extends Component{
 					Agregar Ciudad
 				</Button>
 
+        <Button
+          bsStyle = "primary"
+          name = "start"
+          onClick = {this.onClick}>
+          Empezar Algoritmo
+        </Button>
+
       </div>
     )
   }
@@ -106,6 +114,34 @@ class knapsack extends Component{
 
     }
 
+  }
+  //function that returns maximun
+  max(a,b){
+    return (a>b)? a:b;
+  }
+  knapsack = () =>{
+    var k = [];
+    for(var y = 0; y < this.productList.length+1; y++){
+      k[y]=[];
+      for(var x=0; x < this.weight+1; x++){
+        k[y][x]=0;
+      }
+    }
+    for(var i = 0; i <= this.productList.length; i++){
+      for(var j = 0; j <= this.weight; j++){
+        if(i===0 || j===0){
+          k[i][j]=0;
+        }else if(this.productList[i-1].amount <= j){
+          k[i][j] = this.max(parseInt(this.productList[i-1].value) + parseInt(k[i-1][j-this.productList[i-1].amount]), k[i-1][j]);
+        }else{
+          k[i][j] = k[i-1][j];
+        }
+      }
+    }
+    return k[this.productList.length][this.weight];
+  }
+  onClick = () => {
+    alert("El valor "+this.knapsack());
   }
 
 }
