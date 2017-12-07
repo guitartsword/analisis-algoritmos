@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {FormGroup, ControlLabel, FormControl, Button} from 'react-bootstrap';
+import swal from 'sweetalert';
 
 let x = 300;
 const y = 100;
@@ -17,13 +18,22 @@ class knapsack extends Component{
       amount:''
     });
 
-    this.weight = 50;
+    this.weight = 1;
     this.productList = [];
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
+    swal({
+      title: "Knapsack",
+      text: "Es un problema de complejidad computacional, donde se tiene un arreglo del peso de los objetos y su respectivo valor monetario, pero para ello ocupamos primero que nos de la capacidad de la mochila. La capacidad de la mochila definida por usted es:",
+      content: "input",
+    })
+    .then((value) => {
+      this.weight = value;
+    })
+
     ctx = document.getElementById('canvas').getContext('2d');
       backpack.src = 'http://maxpixel.freegreatpicture.com/static/photo/1x/Trip-Bag-Hiking-Backpack-Travel-Luggage-Outdoors-145841.png';
       backpack.onload = () =>{
@@ -74,7 +84,7 @@ class knapsack extends Component{
 					bsStyle="primary"
 					name="addProduct"
 					onClick={this.handleClick}>
-					Agregar Ciudad
+					Agregar Producto
 				</Button>
 
         <Button
@@ -141,7 +151,7 @@ class knapsack extends Component{
     return k[this.productList.length][this.weight];
   }
   onClick = () => {
-    alert("El valor "+this.knapsack());
+    swal("Solucion","Las ganancias maximas es: "+this.knapsack(), 'success');
   }
 
 }

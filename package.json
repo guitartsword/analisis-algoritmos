@@ -8,6 +8,7 @@
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.2.0",
     "react-scripts": "1.0.17",
+    "sweetalert": "^2.0.8",
     "vis": "^4.21.0"
   },
   "scripts": {
