@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TravelSalesPerson from './TravelSalesPerson/TravelSalesPerson'
+import VertexCover from './VertexCover/vertexCover.js'
 import './App.css';
 import vis from 'vis';
 
@@ -23,6 +24,7 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
+				<VertexCover/>
 				<TravelSalesPerson data={this.data}/>
 				<div id="network"></div>
 			</div>
