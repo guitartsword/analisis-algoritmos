@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {Navbar,Nav,NavItem,MenuItem,NavDropdown} from 'react-bootstrap';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
-import {LinkContainer} from 'react-router-bootstrap';
+import  {Navbar, Nav, NavItem } from 'react-bootstrap';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
 import TravelSalesPerson from './TravelSalesPerson/TravelSalesPerson';
 import Knapsack from './Knapsack/knapsack';
 import './App.css';
@@ -12,7 +12,7 @@ class App extends Component {
 			<Navbar inverse collapseOnSelect>
 				<Navbar.Header>
 					<Navbar.Brand>
-						<Link to="/">Analisis de algoritmos</Link>
+						<Link to="/analisis-algoritmos">Analisis de algoritmos</Link>
 					</Navbar.Brand>
 					<Navbar.Toggle />
 				</Navbar.Header>
@@ -24,6 +24,7 @@ class App extends Component {
 						<LinkContainer to="/tsp">
 							<NavItem>Travel Sales Person</NavItem>
 						</LinkContainer>
+						{/*
 						<NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
 							<MenuItem eventKey={3.1}>Action</MenuItem>
 							<MenuItem eventKey={3.2}>Another action</MenuItem>
@@ -35,6 +36,7 @@ class App extends Component {
 					<Nav pullRight>
 						<NavItem eventKey={1} href="#">Link Right</NavItem>
 						<NavItem eventKey={2} href="#">Link Right</NavItem>
+					*/}
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>
@@ -49,7 +51,8 @@ class App extends Component {
 			<Router >
 				<div className="App">
 					{navbarInstance}
-					<Route exact path="/" component={Home}></Route>
+					<Route exact path="/analisis-algoritmos" component={Home}></Route>
+					<Route path="/" render={() => <Redirect to="/analisis-algoritmos"/>}></Route>
 					<Route path="/knapsack" component={Knapsack}></Route>
 					<Route path="/tsp" component={TravelSalesPerson}></Route>
 				</div>
