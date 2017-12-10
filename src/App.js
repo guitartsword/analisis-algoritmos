@@ -51,8 +51,8 @@ class App extends Component {
 			<Router >
 				<div className="App">
 					{navbarInstance}
-					<Route exact path="/analisis-algoritmos" component={Home}></Route>
-					<Route path="/" render={() => <Redirect to="/analisis-algoritmos"/>}></Route>
+					<Route path="/analisis-algoritmos" component={Home}></Route>
+					<Route exact path="/" render={() => <Redirect to="/analisis-algoritmos"/>}></Route>
 					<Route path="/knapsack" component={Knapsack}></Route>
 					<Route path="/tsp" component={TravelSalesPerson}></Route>
 				</div>
