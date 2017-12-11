@@ -17,6 +17,12 @@ class TravelSalesPerson extends Component{
 				shape: 'dot',
 				size: 16
 			},
+			edges: {
+				color: {
+					color:'white',
+					highlight:'lightgray',
+				}
+			},
 			physics: {
 				forceAtlas2Based: {
 					gravitationalConstant: -50,
@@ -33,8 +39,7 @@ class TravelSalesPerson extends Component{
 		this.state = ({
 			city:''
 		});
-		window.cityList = this.cityList = {};
-		window.data = this.data;
+		this.cityList = {};
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 	}
@@ -102,8 +107,7 @@ class TravelSalesPerson extends Component{
 								let id = this.data.edges.add({
 									from:name,
 									to: city.id,
-									label: Math.ceil(Math.random()*10) + 'km',
-									font: {align:'horizontal'}
+									label: Math.ceil(Math.random()*100) + 'km'
 								});
 								this.cityList[name].push(id);
 								this.cityList[city.id].push(id);
@@ -146,8 +150,7 @@ class TravelSalesPerson extends Component{
 									let id = this.data.edges.add({
 										from:i,
 										to: city.id,
-										label: Math.ceil(Math.random()*10) + 'km',
-										font: {align:'horizontal'}
+										label: Math.ceil(Math.random()*100) + 'km'
 									});
 									this.cityList[i].push(id);
 									this.cityList[city.id].push(id);
@@ -179,6 +182,7 @@ class TravelSalesPerson extends Component{
 					let min, minEdge;
 					const currentEdges = this.data.edges.get(this.cityList[current]);
 					for (let path of currentEdges){
+						if (!path) continue;
 						cityVisit[current] = true;
 						if(cityVisit[path.from] && cityVisit[path.to]) continue;
 				
@@ -218,9 +222,13 @@ class TravelSalesPerson extends Component{
 				}
 				this.data.edges.update(edgePath);
 				const endTime = performance.now();
+				let distance = 0;
+				edgePath.forEach((edge)=>{
+					distance += parseInt(edge.label.slice(0,-2), 10);
+				});
 				swal(
-					'Tiempo para ruta mas corta con Greedy Algorithm',
-					`Se encontró la ruta mas corat en ${endTime - startTime} milisegundos`,
+					`Tiempo para ruta mas corta con Greedy Algorithm es de ${distance} km`,
+					`Se encontró la ruta mas corta en ${endTime - startTime} milisegundos`,
 					'info'
 				);
 			}
