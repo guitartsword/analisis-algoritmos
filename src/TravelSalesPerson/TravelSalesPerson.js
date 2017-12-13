@@ -1,9 +1,69 @@
 import React, { Component } from 'react';
 import {FormGroup, ControlLabel, FormControl, Button} from 'react-bootstrap';
-
-	class TravelSalesPerson extends Component{
+import vis from 'vis';
+import VisNetwork from '../VisNetwork/VisNetwork';
+const clickEvents={
+	addCity: (component)=>{
+		if(!component.state.city.trim()){
+			alert('La ciudad tiene que tener un nombre');
+			return;
+		}
+		try {
+			//Agregar nodo a vis
+			component.data.nodes.add({
+				id:component.state.city,
+				label:component.state.city
+			});
+			//guardar una lista de nodo
+			component.cityList.shift(component.state.city);
+		} catch (error) {
+			//cuando vis falla al agregar nodo
+			alert(`Ciudad con nombre ${component.state.city} no se puede agregar`);
+		}
+		try{
+			//Agregar edge a vis
+			component.data.nodes.forEach((city)=>{
+				if(city.id !== component.state.city)
+					component.data.edges.add({
+						from:component.state.city,
+						to: city.id,
+						label: Math.ceil(Math.random()*10) + 'km',
+						font: {align:'horizontal'}
+					});
+			});
+		} catch (error) {
+			//cuando vis falla
+			alert(`Ciudad con nombre ${component.state.city} no se puede agregar`);
+		}
+	}
+};
+class TravelSalesPerson extends Component{
 	constructor(props){
 		super(props);
+		const nodesArray = [];
+		const edgesArray = [];
+		this.data = {
+			nodes: new vis.DataSet(nodesArray),
+			edges: new vis.DataSet(edgesArray)
+		};
+		this.options = {
+			nodes: {
+				shape: 'dot',
+				size: 16
+			},
+			physics: {
+				forceAtlas2Based: {
+					gravitationalConstant: -26,
+					centralGravity: 0.005,
+					springLength: 230,
+					springConstant: 0.18
+				},
+				maxVelocity: 146,
+				solver: 'forceAtlas2Based',
+				timestep: 0.35,
+				stabilization: {iterations: 150}
+			}
+		};
 		this.state = ({
 			city:''
 		});
@@ -14,17 +74,14 @@ import {FormGroup, ControlLabel, FormControl, Button} from 'react-bootstrap';
 	render(){
 		return (
 			<div>
-				<header className="App-header">
-				<h1 className="App-title">Travel Sales Person</h1>
-				</header>
 				<FormGroup>
 					<ControlLabel>Nombre de la ciudad</ControlLabel>
 					<FormControl
-					type="text"
-					placeholder="Tegucigalpa"
-					value={this.state.city}
-					name='city'
-					onChange={this.handleInputChange}/>
+						type="text"
+						placeholder="Tegucigalpa"
+						value={this.state.city}
+						name='city'
+						onChange={this.handleInputChange}/>
 				</FormGroup>
 				<Button
 					bsStyle="primary"
@@ -33,8 +90,9 @@ import {FormGroup, ControlLabel, FormControl, Button} from 'react-bootstrap';
 				>
 					AgregarCiudad
 				</Button>
+				<VisNetwork data={this.data} options={this.options}/>
 			</div>
-		)
+		);
 	}
 	handleInputChange(event){
 		this.setState({
@@ -42,38 +100,7 @@ import {FormGroup, ControlLabel, FormControl, Button} from 'react-bootstrap';
 		});
 	}
 	handleClick(event){
-		//console.log(this.props.data.nodes);
-		if(!this.state.city.trim()){
-			alert('La ciudad tiene que tener un nombre');
-			return
-		}
-		try {
-			//Agregar nodo a vis
-			this.props.data.nodes.add({
-				id:this.state.city,
-				label:this.state.city
-			});
-			//guardar una lista de nodo
-			this.cityList.shift(this.state.city);
-		} catch (error) {
-			//cuando vis falla al agregar nodo
-			alert(`Ciudad con nombre ${this.state.city} no se puede agregar`);
-		}
-		try{
-			//Agregar edge a vis
-			this.props.data.nodes.forEach((city)=>{
-				if(city.id !== this.state.city)
-					this.props.data.edges.add({
-						from:this.state.city,
-						to: city.id,
-						label: Math.ceil(Math.random()*10) + 'km',
-						font: {align:'horizontal'}
-					});
-			});
-		} catch (error) {
-			//cuando vis falla
-			alert(`Ciudad con nombre ${this.state.city} no se puede agregar`);
-		}
+		clickEvents[event.target.name](this);
 	}
 }
 

@@ -4,102 +4,102 @@ import swal from 'sweetalert';
 
 let x = 300;
 const y = 100;
-let ctx = "";
+let ctx = '';
 const backpack = new Image();
 const box = new Image();
 let x1 = 310;
 let item = "";
 
 class knapsack extends Component{
-  constructor(){
-    super();
-    this.state = ({
-      name: '',
-      value:'',
-      amount:''
-    });
+	constructor(){
+		super();
+		this.state = ({
+			name: '',
+			value:'',
+			amount:''
+		});
 
-    this.weight = 1;
-    this.productList = [];
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-  }
+		this.weight = 1;
+		this.productList = [];
+		this.handleInputChange = this.handleInputChange.bind(this);
+		this.handleClick = this.handleClick.bind(this);
+	}
 
-  componentDidMount() {
-    swal({
-      title: "Knapsack",
-      text: "Es un problema de complejidad computacional, donde se tiene un arreglo del peso de los objetos y su respectivo valor monetario, pero para ello ocupamos primero que nos de la capacidad de la mochila. La capacidad de la mochila definida por usted es:",
-      content: "input",
-    })
-    .then((value) => {
-      this.weight = value;
-    })
+	componentDidMount() {
+		swal({
+			title: 'Knapsack',
+			text: 'Es un problema de complejidad computacional, donde se tiene un arreglo del peso de los objetos y su respectivo valor monetario, pero para ello ocupamos primero que nos de la capacidad de la mochila. La capacidad de la mochila definida por usted es:',
+			content: 'input',
+		})
+			.then((value) => {
+				this.weight = value;
+			});
 
-    ctx = document.getElementById('canvas').getContext('2d');
-      backpack.src = 'http://maxpixel.freegreatpicture.com/static/photo/1x/Trip-Bag-Hiking-Backpack-Travel-Luggage-Outdoors-145841.png';
-      backpack.onload = () =>{
-        ctx.clearRect(0, 0, 1400, 300); // clear canvas
-        ctx.drawImage(backpack, 40, 50, 200, 200);
-      }
-  }
+		ctx = document.getElementById('canvas').getContext('2d');
+		backpack.src = 'http://maxpixel.freegreatpicture.com/static/photo/1x/Trip-Bag-Hiking-Backpack-Travel-Luggage-Outdoors-145841.png';
+		backpack.onload = () =>{
+			ctx.clearRect(0, 0, 1400, 300); // clear canvas
+			ctx.drawImage(backpack, 40, 50, 200, 200);
+		};
+	}
 
-  render(){
-    return(
-      <div>
-        <header className="App-header">
-          <h1 className="App-title">Knapsack</h1>
-        </header>
+	render(){
+		return(
+			<div>
+				<header className="App-header">
+					<h1 className="App-title">Knapsack</h1>
+				</header>
 
-        <canvas id="canvas" width="1300" height="300"></canvas>
+				<canvas id="canvas" width="1300" height="300"></canvas>
 
-        <FormGroup>
+				<FormGroup>
 
-          <ControlLabel>Nuevo Producto</ControlLabel>
-          {/* Product name! */}
-          <FormControl
-          type = 'text'
-          placeholder = "Nombre"
-          value = {this.state.name}
-          name = 'name'
-          onChange = {this.handleInputChange}/>
-          {/*product value*/}
-          <FormControl
-          type = 'number'
-          min = "1"
-          placeholder = "Precio total"
-          value = {this.state.value}
-          name = 'value'
-          onChange = {this.handleInputChange}/>
-          {/*product amount*/}
-          <FormControl
-          type = 'number'
-          min = "1"
-          placeholder = "Cantidad del producto"
-          value = {this.state.amount}
-          name = 'amount'
-          onChange = {this.handleInputChange}/>
+					<ControlLabel>Nuevo Producto</ControlLabel>
+					{/* Product name */}
+					<FormControl
+						type = 'text'
+						placeholder = "Nombre"
+						value = {this.state.name}
+						name = 'name'
+						onChange = {this.handleInputChange}/>
+					{/*product value*/}
+					<FormControl
+						type = 'number'
+						min = "1"
+						placeholder = "Precio total"
+						value = {this.state.value}
+						name = 'value'
+						onChange = {this.handleInputChange}/>
+					{/*product amount*/}
+					<FormControl
+						type = 'number'
+						min = "1"
+						placeholder = "Cantidad del producto"
+						value = {this.state.amount}
+						name = 'amount'
+						onChange = {this.handleInputChange}/>
 
-        </FormGroup>
+				</FormGroup>
 
-        <Button
+				<Button
 					bsStyle="primary"
 					name="addProduct"
 					onClick={this.handleClick}>
 					Agregar Producto
 				</Button>
 
-        <Button
-          bsStyle = "primary"
-          name = "start"
-          onClick = {this.onClick}>
-          Empezar Algoritmo
-        </Button>
+				<Button
+					bsStyle = "primary"
+					name = "start"
+					onClick = {this.onClick}>
+					Empezar Algoritmo
+				</Button>
 
-      </div>
-    )
-  }
-  //eventos que ocupe
-  handleInputChange(event){
+			</div>
+		);
+	}
+	//eventos que ocupe
+	handleInputChange(event){
 		this.setState({
 			[event.target.name]: event.target.value
 		});
