@@ -8,6 +8,7 @@ let ctx = "";
 const backpack = new Image();
 const box = new Image();
 let x1 = 310;
+let item = "";
 
 class knapsack extends Component{
   constructor(){
@@ -142,16 +143,33 @@ class knapsack extends Component{
         if(i===0 || j===0){
           k[i][j]=0;
         }else if(this.productList[i-1].amount <= j){
-          k[i][j] = this.max(parseInt(this.productList[i-1].value) + parseInt(k[i-1][j-this.productList[i-1].amount]), k[i-1][j]);
+          // k[i][j] = this.max(parseInt(this.productList[i-1].value) + parseInt(k[i-1][j-this.productList[i-1].amount]), k[i-1][j]);
+          if(parseInt(this.productList[i-1].value) + parseInt(k[i-1][j-this.productList[i-1].amount])>k[i-1][j]){
+            k[i][j]=parseInt(this.productList[i-1].value) + parseInt(k[i-1][j-this.productList[i-1].amount]);
+          }else{
+            k[i][j] = k[i-1][j];
+          }
         }else{
           k[i][j] = k[i-1][j];
+          //al parecer aqui es donde funciona y donde debo de guardar
         }
+      }
+    }
+    var i = this.productList.length;
+    var w = this.weight;
+    while(i && w > 0 ){
+      if(k[i][w] !== k[i-1][w]){
+        item += this.productList[i-1].name+",";
+        w = w - parseInt(this.productList[i-1].amount);
+        i = i - 1;
+      }else{
+        i = i - 1;
       }
     }
     return k[this.productList.length][this.weight];
   }
   onClick = () => {
-    swal("Solucion","Las ganancias maximas es: "+this.knapsack(), 'success');
+    swal("Solucion","Las ganancias maximas es: "+this.knapsack()+ " con objectos: "+item, 'success');
   }
 
 }
