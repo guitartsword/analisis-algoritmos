@@ -143,10 +143,13 @@ class knapsack extends Component{
 				backpack.onload = () =>{
 					ctx.clearRect(0, 0, 1400, 300); // clear canvas
 					ctx.drawImage(backpack, 40, 50, 200, 200);
+					ctx.fillText("Peso de la mochila: "+this.weight, 50, 40 );
+
 			}
 			this.productList = [];
 			item = "";
-			ctx.fillText("Peso de la mochila: "+this.weight, 50, 40 );
+			x1=310;
+			x=300;
 		}
 
 		};
@@ -194,7 +197,8 @@ class knapsack extends Component{
   }
 
   onClick = () => {
-    swal("Solucion",`El tiempo que nos tardamos en poder clacular la maxima ganancias es de: ${endTime-starTime} milisegundos.Las ganancias maximas es: `+this.knapsack()+ "LPS, con objectos: "+item, 'success');
+		let ganancia = this.knapsack();
+    swal("Solucion",`El tiempo que nos tardamos en poder clacular la maxima ganancias es de: ${endTime-starTime} milisegundos.Las ganancias maximas es: ${ganancia} LPS, con objectos: ${item}`, 'success');
 		endTime = 0.0;
 		starTime = 0.0;
 		item = "";
