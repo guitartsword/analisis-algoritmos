@@ -8,6 +8,9 @@ let ctx = '';
 const backpack = new Image();
 const box = new Image();
 let x1 = 310;
+let item = "";
+let starTime = 0.0;
+let endTime = 0.0;
 
 class knapsack extends Component{
 	constructor(){
@@ -31,7 +34,8 @@ class knapsack extends Component{
 			content: 'input',
 		})
 			.then((value) => {
-				this.weight = value;
+				this.weight = value || 1;
+				ctx.fillText("Peso de la mochila: "+this.weight, 50, 40 );
 			});
 
 		ctx = document.getElementById('canvas').getContext('2d');
@@ -39,6 +43,7 @@ class knapsack extends Component{
 		backpack.onload = () =>{
 			ctx.clearRect(0, 0, 1400, 300); // clear canvas
 			ctx.drawImage(backpack, 40, 50, 200, 200);
+			ctx.font = "15px Courier"
 		};
 	}
 
@@ -88,12 +93,18 @@ class knapsack extends Component{
 				</Button>
 
 				<Button
-					bsStyle = "primary"
-					name = "start"
+					bsStyle = "success"
+					name = "knapsack"
 					onClick = {this.onClick}>
 					Empezar Algoritmo
 				</Button>
 
+				<Button
+					bsStyle = "primary"
+					name = "clear"
+					onClick = {this.handleClick}>
+					Limpiar Todo
+				</Button>
 			</div>
 		);
 	}
@@ -103,63 +114,96 @@ class knapsack extends Component{
 			[event.target.name]: event.target.value
 		});
 	}
-	handleClick(event){
-		if(!this.state.name.trim() || !this.state.value.trim() || !this.state.amount.trim()){
-			alert('Uno de los campos esta vacio!');
-			return;
-		}else{
-			this.productList.push({
-				name: this.state.name,
-				value: parseInt(this.state.value,10),
-				amount: parseInt(this.state.amount,10)
-			});
-
-			ctx = document.getElementById('canvas').getContext('2d');
-			box.src = 'https://cdn0.iconfinder.com/data/icons/ie_Bright/512/box_wooden.png';
-			box.onload = () => {
-				ctx.font = '15px Courier';
-				ctx.fillText(this.state.name, x1, y);
-				ctx.fillText('Valor:'+this.state.value, x1, 210);
-				ctx.fillText('Cantidad:'+this.state.amount, x1, 250);
-				ctx.drawImage(box,x,y,90,90);
-				x+= 120;
-				x1+=120;
-			};
-
-		}
-
-	}
-	//function that returns maximun
-	max(a,b){
-		return (a>b)? a:b;
-	}
-	knapsack = () =>{
-		var k = [];
-		for(var y = 0; y < this.productList.length+1; y++){
-			k[y]=[];
-			for(var x=0; x < this.weight+1; x++){
-				k[y][x]=0;
-			}
-		}
-		for(var i = 0; i <= this.productList.length; i++){
-			for(var j = 0; j <= this.weight; j++){
-				if(i===0 || j===0){
-					k[i][j]=0;
-				}else if(this.productList[i-1].amount <= j){
-					k[i][j] = this.max(
-						(this.productList[i-1].value) + (k[i-1][j-this.productList[i-1].amount]),
-						k[i-1][j]
-					);
+  handleClick(event){
+		const clickEvents = {
+			addProduct: () =>{
+				if(!this.state.name.trim() || !this.state.value.trim() || !this.state.amount.trim()){
+					alert("Uno de los campos esta vacio!");
+					return
 				}else{
-					k[i][j] = k[i-1][j];
+					this.productList.push({name: this.state.name, value: this.state.value, amount: this.state.amount});
+
+					ctx = document.getElementById('canvas').getContext('2d');
+					box.src = 'https://cdn0.iconfinder.com/data/icons/ie_Bright/512/box_wooden.png';
+					box.onload = () => {
+						ctx.font = "15px Courier"
+						ctx.fillText(this.state.name, x1, y);
+						ctx.fillText("Valor:"+this.state.value, x1, 210);
+						ctx.fillText("Cantidad:"+this.state.amount, x1, 250);
+						ctx.drawImage(box,x,y,90,90);
+						x+= 120;
+						x1+=120;
+					}
 				}
+			},
+
+			clear: ()=>{
+				ctx = document.getElementById('canvas').getContext('2d');
+				backpack.src = 'http://maxpixel.freegreatpicture.com/static/photo/1x/Trip-Bag-Hiking-Backpack-Travel-Luggage-Outdoors-145841.png';
+				backpack.onload = () =>{
+					ctx.clearRect(0, 0, 1400, 300); // clear canvas
+					ctx.drawImage(backpack, 40, 50, 200, 200);
+					ctx.fillText("Peso de la mochila: "+this.weight, 50, 40 );
+
 			}
+			this.productList = [];
+			item = "";
+			x1=310;
+			x=300;
 		}
-		return k[this.productList.length][this.weight];
-	}
-	onClick = () => {
-		swal('Solucion','Las ganancias maximas es: '+this.knapsack(), 'success');
-	}
+
+		};
+		clickEvents[event.target.name]();
+  }
+  //function that returns maximun
+  max(a,b){
+    return (a>b)? a:b;
+  }
+	//function Knapsack
+  knapsack = () =>{
+    var k = [];
+    for(var y = 0; y < this.productList.length+1; y++){
+      k[y]=[];
+      for(var x=0; x < this.weight+1; x++){
+        k[y][x]=0;
+      }
+    }
+		starTime = performance.now();
+    for(var i = 0; i <= this.productList.length; i++){
+      for(var j = 0; j <= this.weight; j++){
+        if(i===0 || j===0){
+          k[i][j]=0;
+        }else if(this.productList[i-1].amount <= j){
+          k[i][j] = this.max(parseInt(this.productList[i-1].value) + parseInt(k[i-1][j-this.productList[i-1].amount]), k[i-1][j]);
+        }else{
+          k[i][j] = k[i-1][j];
+          //al parecer aqui es donde funciona y donde debo de guardar
+        }
+      }
+    }
+		endTime = performance.now();
+    i = this.productList.length;
+    var w = this.weight;
+    while(i && w > 0 ){
+      if(k[i][w] !== k[i-1][w]){
+        item += this.productList[i-1].name+",";
+        w = w - parseInt(this.productList[i-1].amount);
+        i = i - 1;
+      }else{
+        i = i - 1;
+      }
+    }
+    return k[this.productList.length][this.weight];
+  }
+
+  onClick = () => {
+		let ganancia = this.knapsack();
+    swal("Solucion",`El tiempo que nos tardamos en poder clacular la maxima ganancias es de: ${endTime-starTime} milisegundos.Las ganancias maximas es: ${ganancia} LPS, con objectos: ${item}`, 'success');
+		endTime = 0.0;
+		starTime = 0.0;
+		item = "";
+
+  }
 
 }
 
