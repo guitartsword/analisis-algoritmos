@@ -3,11 +3,13 @@ import { Button } from 'react-bootstrap';
 import vis from 'vis';
 import VisNetwork from '../VisNetwork/VisNetwork';
 import swal from 'sweetalert';
+
 class TravelSalesPerson extends Component{
 	constructor(props){
 		super(props);
 		const nodesArray = [];
 		const edgesArray = [];
+
 		this.data = {
 			nodes: new vis.DataSet(nodesArray),
 			edges: new vis.DataSet(edgesArray)
@@ -36,11 +38,7 @@ class TravelSalesPerson extends Component{
 				stabilization: {iterations: 150}
 			}
 		};
-		this.state = ({
-			city:''
-		});
 		this.cityList = {};
-		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 	}
 	render(){
@@ -51,14 +49,14 @@ class TravelSalesPerson extends Component{
 					name="addCity"
 					onClick={this.handleClick}
 				>
-					AgregarCiudad
+					Agregar Ciudad
 				</Button>
 				<Button
 					bsStyle="primary"
 					name="addRandomCities"
 					onClick={this.handleClick}
 				>
-					Agrgar Muchas Ciudades
+					Generar Ciudades Interconectadas
 				</Button>
 				<VisNetwork data={this.data} options={this.options}/>
 				<Button
@@ -66,15 +64,10 @@ class TravelSalesPerson extends Component{
 					name="calculateGreedy"
 					onClick={this.handleClick}
 				>
-					Calculate with Greedy Algorithm
+					Calcular con Greedy Algorithm (Vecino mas cercano)
 				</Button>
 			</div>
 		);
-	}
-	handleInputChange(event){
-		this.setState({
-			[event.target.name]: event.target.value
-		});
 	}
 	handleClick(event){
 		const clickEvents={
