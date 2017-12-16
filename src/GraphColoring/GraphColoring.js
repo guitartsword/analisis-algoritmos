@@ -73,7 +73,7 @@ class GraphColoring extends Component {
 					name="calculateDSatur"
 					onClick={this.handleClick}
 				>
-					Calculate con DSatur Algorithm
+					Calcular con DSatur Algorithm
 				</Button>
 			</div>);
 	}
