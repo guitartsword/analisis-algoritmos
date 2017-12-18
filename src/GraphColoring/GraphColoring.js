@@ -44,6 +44,10 @@ class GraphColoring extends Component {
 					avoidOverlap: 0.18
 				},
 				minVelocity: 0.75
+			},
+			manipulation: {
+				enabled: true,
+				initiallyActive:true
 			}
 		};
 		window.GColor = this;
