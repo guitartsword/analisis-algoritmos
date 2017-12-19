@@ -25,6 +25,9 @@ class App extends Component {
 						<LinkContainer to="/tsp">
 							<NavItem>Travel Sales Person</NavItem>
 						</LinkContainer>
+						<LinkContainer to = "/vc">
+							<NavItem>Vertex Cover</NavItem>
+						</LinkContainer>
 						{/*
 						<NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
 							<MenuItem eventKey={3.1}>Action</MenuItem>
@@ -46,6 +49,7 @@ class App extends Component {
 			<ul className="big-font">
 				<li><Link to="/knapsack">Knapsack</Link></li>
 				<li><Link to="/tsp">TravelSalesPerson</Link></li>
+				<li><Link to = "/vc"> Vertex Cover</Link></li>
 			</ul>
 		);
 		return (
@@ -56,6 +60,7 @@ class App extends Component {
 					<Route exact path="/" render={() => <Redirect to="/analisis-algoritmos"/>}></Route>
 					<Route path="/knapsack" component={Knapsack}></Route>
 					<Route path="/tsp" component={TravelSalesPerson}></Route>
+					<Route path = "/vc" component = {VertexCover}></Route>
 				</div>
 			</Router>
 		);
