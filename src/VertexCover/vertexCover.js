@@ -5,6 +5,7 @@ import VisNetwork from '../VisNetwork/VisNetwork';
 import swal from 'sweetalert';
 
 let answer = "";
+let num = 0;
 let starTime = 0.0;
 let endTime = 0.0;
 
@@ -97,7 +98,7 @@ class VertexCover extends Component {
           if(visited[u] === false){
             var adj = this.data.network.getConnectedNodes(u);
             for(a = adj[0]; a !== adj[adj.length-1]; a++ ){
-              var v = adj[adj.length-1] - adj[0];
+              var v = adj[adj.length-1];
               if(visited[v] === false){
                 visited[v] = true;
                 visited[u] = true;
@@ -107,17 +108,20 @@ class VertexCover extends Component {
           }
         }
         endTime = performance.now();
-        for(var j = 0; j<this.data.nodes.length-1; j++){
+        for(var j = 0; j<this.data.nodes.length; j++){
           if(visited[j]===true){
             answer+=j+","
+            num++;
             let updateNode = this.data.nodes.get(j);
             updateNode.color = {background: "green"};
             this.data.nodes.update(updateNode);
           }
         }
         swal(
-          "Solucion",`Se encontraron los siguientes nodos a cubrir: ${answer}, con un tiempo de espera de: ${endTime-starTime}milisegundos`,"success"
+          "Solucion",`Se encontro un total de : ${num} (${answer}), con un tiempo de espera de: ${endTime-starTime}milisegundos`,"success"
         );
+        num=0;
+        answer="";
       },
     }
     clickEvents[event.target.name]();
