@@ -3,8 +3,9 @@ import  {Navbar, Nav, NavItem } from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import TravelSalesPerson from './TravelSalesPerson/TravelSalesPerson';
+import GraphColoring from './GraphColoring/GraphColoring';
 import Knapsack from './Knapsack/knapsack';
-import VertexCover from './VertexCover/vertexCover.js'
+import VertexCover from './VertexCover/vertexCover.js';
 import './App.css';
 
 class App extends Component {
@@ -28,6 +29,9 @@ class App extends Component {
 						<LinkContainer to = "/vc">
 							<NavItem>Vertex Cover</NavItem>
 						</LinkContainer>
+						<LinkContainer to="/kcoloring">
+							<NavItem>Graph k-Coloring</NavItem>
+						</LinkContainer>
 						{/*
 						<NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
 							<MenuItem eventKey={3.1}>Action</MenuItem>
@@ -50,6 +54,7 @@ class App extends Component {
 				<li><Link to="/knapsack">Knapsack</Link></li>
 				<li><Link to="/tsp">TravelSalesPerson</Link></li>
 				<li><Link to = "/vc"> Vertex Cover</Link></li>
+				<li><Link to="/kcoloring">Graph k-Coloring</Link></li>
 			</ul>
 		);
 		return (
@@ -61,6 +66,7 @@ class App extends Component {
 					<Route path="/knapsack" component={Knapsack}></Route>
 					<Route path="/tsp" component={TravelSalesPerson}></Route>
 					<Route path = "/vc" component = {VertexCover}></Route>
+					<Route path="/kcoloring" component={GraphColoring}></Route>
 				</div>
 			</Router>
 		);

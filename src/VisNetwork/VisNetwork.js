@@ -61,6 +61,25 @@ class VisNetwork extends Component {
 	
 		return {nodes:nodes, edges:edges};
 	}
+	static createCompleteGraph(nodeCount) {
+		let nodes = [];
+		let edges = [];
+		for (let i = 0; i < nodeCount; i++){
+			nodes.push({
+				id:i,
+				label: `Ciudad #${i+1}`
+			});
+			nodes.forEach((node) => {
+				if (node.id !== i){
+					edges.push({
+						from:i,
+						to: node.id
+					});
+				}
+			});
+		}
+		return {nodes:nodes, edges:edges};
+	}
 	static getScaleFreeNetworkSeeded(nodeCount, seed=Math.ceil(Math.random()*1000)) {
 		let randomSeed = parseInt(seed, 10) || seed;
 		let nodes = [];
