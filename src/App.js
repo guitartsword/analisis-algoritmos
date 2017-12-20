@@ -5,6 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import TravelSalesPerson from './TravelSalesPerson/TravelSalesPerson';
 import GraphColoring from './GraphColoring/GraphColoring';
 import Knapsack from './Knapsack/knapsack';
+import VertexCover from './VertexCover/vertexCover.js';
 import './App.css';
 
 class App extends Component {
@@ -24,6 +25,9 @@ class App extends Component {
 						</LinkContainer>
 						<LinkContainer to="/tsp">
 							<NavItem>Travel Sales Person</NavItem>
+						</LinkContainer>
+						<LinkContainer to = "/vc">
+							<NavItem>Vertex Cover</NavItem>
 						</LinkContainer>
 						<LinkContainer to="/kcoloring">
 							<NavItem>Graph k-Coloring</NavItem>
@@ -49,6 +53,7 @@ class App extends Component {
 			<ul className="big-font">
 				<li><Link to="/knapsack">Knapsack</Link></li>
 				<li><Link to="/tsp">TravelSalesPerson</Link></li>
+				<li><Link to = "/vc"> Vertex Cover</Link></li>
 				<li><Link to="/kcoloring">Graph k-Coloring</Link></li>
 			</ul>
 		);
@@ -60,6 +65,7 @@ class App extends Component {
 					<Route exact path="/" render={() => <Redirect to="/analisis-algoritmos"/>}></Route>
 					<Route path="/knapsack" component={Knapsack}></Route>
 					<Route path="/tsp" component={TravelSalesPerson}></Route>
+					<Route path = "/vc" component = {VertexCover}></Route>
 					<Route path="/kcoloring" component={GraphColoring}></Route>
 				</div>
 			</Router>
